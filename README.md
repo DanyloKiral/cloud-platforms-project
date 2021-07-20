@@ -12,4 +12,4 @@ The project is designed to process and analyze Reddit comments data. As input, i
 - A microservice that generates and exposes HTTP endpoint with statistics.
 
 ## High-level design diagram
-![image](https://user-images.githubusercontent.com/15198798/126330765-618b29e5-f8c7-4b4c-943c-295401d66046.png)
+![image](https://user-images.githubusercontent.com/15198798/126364717-2ab52602-8033-4a2c-829f-72edc75b1680.png)
