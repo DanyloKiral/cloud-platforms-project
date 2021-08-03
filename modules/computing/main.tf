@@ -72,7 +72,7 @@ resource "azurerm_app_service" "statistics_aggregator_app_service" {
     http_logs {
       file_system {
         retention_in_days = 90
-        retention_in_mb = 135
+        retention_in_mb = 70
       }
     }
 
