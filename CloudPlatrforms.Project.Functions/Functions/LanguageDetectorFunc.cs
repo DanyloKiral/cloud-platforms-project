@@ -61,7 +61,7 @@ namespace CloudPlatrforms.Project.Functions
             }
             catch (Exception e)
             {
-                log.LogError(e, "Error executing LanguageDetectorFunc function");
+                log.LogError(e, "Error executing function");
             }
         }
 
@@ -70,40 +70,41 @@ namespace CloudPlatrforms.Project.Functions
         {
             var comment = JsonConvert.DeserializeObject<RedditComment>(serializedMessage);
 
-            var commentLanguage = DetectLanguage(comment.body);
+            var commentLanguage = await DetectLanguage(comment.body);
 
-
+            await WriteToDB(comment.id, commentLanguage, connection, log);
         }
 
-        private static async Task<string> DetectLanguage(string text) 
+        private static Task<string> DetectLanguage(string text) 
         {
             var rndm = new Random();
             var randomNumber = rndm.NextDouble();
 
             if (randomNumber > 0.6) {
-                return "en";
+                return Task.FromResult("en");
             }
 
             if (randomNumber > 0.3) {
-                return "es";
+                return Task.FromResult("es");
             }
 
             if (randomNumber > 0.1) {
-                return "fr";
+                return Task.FromResult("fr");
             }
 
-            return "uk";
+            return Task.FromResult("uk");
         }
 
-        private static async Task WriteToDB(object obj, SqlConnection connection, ILogger log) 
+        private static async Task WriteToDB(string commentId, string language, SqlConnection connection, ILogger log) 
         {
-            var text = "UPDATE SalesLT.SalesOrderHeader " +
-                "SET [Status] = 5  WHERE ShipDate < GetDate();";
+            var text = $@"
+                INSERT INTO DetectedLanguages (CommentID, Language, CreatedAt)
+                VALUES ({commentId}, {language}, GETUTCDATE())";
 
             using var cmd = new SqlCommand(text, connection);
             // Execute the command and log the # rows affected.
             var rows = await cmd.ExecuteNonQueryAsync();
-            log.LogInformation($"{rows} rows were updated");
+            log.LogInformation($"{rows} rows were added");
         }
     }
 }
