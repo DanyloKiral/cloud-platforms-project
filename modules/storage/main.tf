@@ -11,6 +11,12 @@ resource "azurerm_storage_account" "project_storage_acc" {
   account_replication_type = "LRS"
 }
 
+resource "azurerm_storage_container" "reddit_comments_container" {
+  name                  = "reddit-comments-archive"
+  storage_account_name  = azurerm_storage_account.project_storage_acc.name
+  container_access_type = "private"
+}
+
 resource "azurerm_mssql_server" "statistics_db_server" {
   name                         = "statistics-sqlserver"
   resource_group_name          = azurerm_resource_group.project_group_storage.name
@@ -23,14 +29,6 @@ resource "azurerm_mssql_server" "statistics_db_server" {
 resource "azurerm_mssql_database" "statistics_db" {
   name           = "statistics-sqlserver-db"
   server_id      = azurerm_mssql_server.statistics_db_server.id
-
-#   provisioner "local-exec" {
-#     working_dir = path.module
-
-#     command = "sqlcmd -S tcp:statistics-sqlserver.database.windows.net,1433 -E -i ./db_init.sql -d statistics-sqlserver-db -W -U ${var.db_admin_username} -P ${var.db_admin_password}"
-
-#     interpreter = ["bash"]
-#   }
 }
 
 resource "azurerm_mssql_firewall_rule" "ms" {
@@ -41,7 +39,7 @@ resource "azurerm_mssql_firewall_rule" "ms" {
 }
 
 resource "azurerm_eventhub_namespace" "project_event_hub_ns" {
-  name                = "projecteventhubns"
+  name                = "cpprojecteventhubns"
   location            = azurerm_resource_group.project_group_storage.location
   resource_group_name = azurerm_resource_group.project_group_storage.name
   sku                 = "Standard"

@@ -64,6 +64,22 @@ resource "azurerm_app_service" "statistics_aggregator_app_service" {
   resource_group_name = azurerm_resource_group.project_group_computing.name
   app_service_plan_id = azurerm_app_service_plan.web_app_service_plan.id
 
+  logs {
+    application_logs {
+      file_system_level = "Information"
+    }
+
+    http_logs {
+      file_system {
+        retention_in_days = 90
+        retention_in_mb = 135
+      }
+    }
+
+    detailed_error_messages_enabled = true
+    failed_request_tracing_enabled = true
+  }
+
   connection_string {
     name  = "StatisticsDBConnectionString"
     type  = "SQLServer"

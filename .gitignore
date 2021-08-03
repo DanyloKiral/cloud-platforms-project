@@ -268,3 +268,4 @@ terraform.tfstate
 terraform.tfstate.backup
 terraform.auto.tfvars
 .terraform.lock.hcl
+CloudPlatrforms.Project.WebApi/Properties

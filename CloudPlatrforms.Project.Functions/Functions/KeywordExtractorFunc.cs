@@ -43,6 +43,7 @@ namespace CloudPlatrforms.Project.Functions
                     }
                     catch (Exception e)
                     {
+                        log.LogError(e, "Event data proccess failed");
                         // We need to keep processing the rest of the batch - capture this exception and continue.
                         // Also, consider capturing details of the message that failed processing so it can be processed again later.
                         exceptions.Add(e);
@@ -87,12 +88,11 @@ namespace CloudPlatrforms.Project.Functions
         {
             var text = $@"
                 INSERT INTO MessageKeywords (CommentID, Keyword, CreatedAt)
-                VALUES ({commentId}, {keyword}, GETUTCDATE())";
+                VALUES ('{commentId}', '{keyword}', GETUTCDATE())";
 
             using var cmd = new SqlCommand(text, connection);
             // Execute the command and log the # rows affected.
             var rows = await cmd.ExecuteNonQueryAsync();
-            log.LogInformation($"{rows} rows were added");
         }
     }
 }
