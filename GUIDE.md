@@ -12,7 +12,7 @@ Click the Publish button.
 
 ![image](https://user-images.githubusercontent.com/15198798/128075490-657aa249-848d-49aa-be88-91c6fae8e22d.png)
 
-9. Now everything is deployed and you can load a JSON file with the Reddit comments archive to projectdatastore into the reddit-comments-archive container. (Archives you can take from here. Do not forget to unarchive files).
+9. Now everything is deployed and you can load a JSON file with the Reddit comments archive to projectdatastore into the reddit-comments-archive container. (Archives you can take from [here](http://files.pushshift.io/reddit/comments/). Do not forget to unarchive files).
 
 ![image](https://user-images.githubusercontent.com/15198798/128075544-69823d70-99bd-4c9d-93a7-abc47ee181c5.png)
 
